@@ -14,14 +14,8 @@
 [![Project Status: WIP – Initial development is in progress, but there
 has not yet been a stable, usable release suitable for the
 public.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
-[![](https://img.shields.io/badge/doi-10.17605/OSF.IO/GNSEJ-green.svg)](https://doi.org/10.17605/OSF.IO/GNSEJ)
 
 <!-- badges: end -->
-
-## Citation
-
-Morris, D. (2023). smkfreediv2: An R package for estimating the
-smoke-free dividend for local authorities England. doi: \<\>
 
 ## Motivation
 
@@ -36,11 +30,12 @@ authorities in England.
 The `smkfreediv2` package contains functions which read in raw data
 files, process them into clean output variables, and combines all data
 files into a single output data table. The **inputs** are the raw
-Smoking Toolkit Study (STS) data files obtained from…
+Smoking Toolkit Study (STS) data files in SPSS data format.
 
-The package also downloads data from the Office for Health Improvement
-and Disparities (OHID) local tobacco profiles. To use this package you
-will also need to install
+The package uses data on smoking prevalence from the Office for Health
+Improvement and Disparities (OHID) local tobacco profiles. The functions
+in the package download these data using a separate R package. To use
+`smkfreediv2` you will also need to install
 [`fingertipsR`](https://github.com/ropensci/fingertipsR).
 
 ``` r
@@ -53,37 +48,10 @@ options(repos = c(
 install.packages('fingertipsR')
 ```
 
-A typical workflow for using the package looks as follows,
-
-``` r
-
-### Define arguments 
-
-root <- "C:/"
-file <- "Documents/Datasets/Family Resources Survey/tab"
-ages <- 16:64
-years <- 2020
-keep_vars <- NULL
-complete_vars <- NULL
-
-#########################################
-### Read in and combine years of data ###
-
-data <- frsclean(root = root,
-                 file = file,
-                 ages = ages,
-                 years = years,
-                 keep_vars = keep_vars,
-                 complete_vars = complete_vars)
-```
-
-The **output** of these functions are a single data table of processed
-FRS data
-
 ## Installation
 
-`smkreediv2` is available on GitHub. If you are on a Windows machine you
-will also need to [install
+`smkfreediv2` is available on GitHub. If you are on a Windows machine
+you will also need to [install
 Rtools](https://www.rdocumentation.org/packages/installr/versions/0.22.0/topics/install.Rtools).  
 Once that is sorted, you can install the latest version or a specified
 version from GitHub with:
@@ -94,10 +62,8 @@ version from GitHub with:
 #install.packages("git2r")
 
 devtools::install_git(
-  "https://github.com/djmorris1989/frsclean.git", 
+  "https://github.com/STAPM/smkfreediv2.git", 
   ref = "x.x.x",
   build_vignettes = TRUE
 )
 ```
-
-## References
