@@ -42,6 +42,8 @@ DividendCalc_sim <- function(data_spend,
   m_mean_week_spend     <- matrix(rep(NA,n_sim*152), ncol = n_sim)
   m_total_annual_exp    <- matrix(rep(NA,n_sim*152), ncol = n_sim)
   m_dividend            <- matrix(rep(NA,n_sim*152), ncol = n_sim)
+  m_dividend_pp         <- matrix(rep(NA,n_sim*152), ncol = n_sim)
+  m_dividend_ps         <- matrix(rep(NA,n_sim*152), ncol = n_sim)
 
   for (i in 1:n_sim) {
 
@@ -62,7 +64,9 @@ DividendCalc_sim <- function(data_spend,
                prob_n_smokers        = prob_smk_prev * pop,
                prob_mean_week_spend  = rnorm(1, mean = mean_week_spend, sd = se_week_spend),
                prob_total_annual_exp = (prob_n_smokers * prob_mean_week_spend * 52)/1000000,
-               prob_dividend         = (prob_total_annual_exp * illicit_prop) + (prob_total_annual_exp * (1 - illicit_prop))*div ) %>%
+               prob_dividend         = (prob_total_annual_exp * illicit_prop) + (prob_total_annual_exp * (1 - illicit_prop))*div,
+               prob_dividend_pp      = prob_dividend / pop,
+               prob_dividend_ps      = prob_dividend / n_smokers) %>%
         ungroup()
     )
     ######## save out probabilistic results ################
@@ -72,6 +76,8 @@ DividendCalc_sim <- function(data_spend,
     m_mean_week_spend[,i]     <- as.vector(as.matrix(sim_data[,"prob_mean_week_spend"]))
     m_total_annual_exp[,i]    <- as.vector(as.matrix(sim_data[,"prob_total_annual_exp"]))
     m_dividend[,i]            <- as.vector(as.matrix(sim_data[,"prob_dividend"]))
+    m_dividend_pp[,i]         <- as.vector(as.matrix(sim_data[,"prob_dividend_pp"]))
+    m_dividend_ps[,i]         <- as.vector(as.matrix(sim_data[,"prob_dividend_ps"]))
 
   } ## end loop over simulation iterations
 
@@ -143,12 +149,39 @@ DividendCalc_sim <- function(data_spend,
 
   #cat("\t\tdone\n")
   ### -----------------------------------------------------------------###
+  ### ----------- (6) Smoke-free dividend per person ------------------###
+  #cat(crayon::cyan("\t\tSmokefree Dividend"))
+
+  m <- data.table(m_dividend_pp)
+
+  m_m <- transform(m, M=apply(m,1, mean, na.rm = TRUE))
+  m_s <- transform(m, SD=apply(m,1, sd, na.rm = TRUE))
+  m_dividend_pp   <- cbind(m_m[,"M"] ,m_s[,"SD"])
+
+  setnames(m_dividend, c("M","SD"), c("dividend_pp_m","dividend_pp_sd"))
+
+  #cat("\t\tdone\n")
+  ### -----------------------------------------------------------------###
+  ### ----------- (7) Smoke-free dividend per smoker ------------------###
+  #cat(crayon::cyan("\t\tSmokefree Dividend"))
+
+  m <- data.table(m_dividend_ps)
+
+  m_m <- transform(m, M=apply(m,1, mean, na.rm = TRUE))
+  m_s <- transform(m, SD=apply(m,1, sd, na.rm = TRUE))
+  m_dividend_ps   <- cbind(m_m[,"M"] ,m_s[,"SD"])
+
+  setnames(m_dividend, c("M","SD"), c("dividend_ps_m","dividend_ps_sd"))
+
+  #cat("\t\tdone\n")
+  ### -----------------------------------------------------------------###
 
   utla <- merge %>%
     arrange(UTLA22CD,UTLA22NM) %>%
     select(UTLA22CD,UTLA22NM)
 
-  data_out <- cbind(utla, m_n_smokers, m_smk_prev, m_mean_week_spend, m_total_annual_exp, m_dividend)
+  data_out <- cbind(utla, m_n_smokers, m_smk_prev, m_mean_week_spend, m_total_annual_exp,
+                    m_dividend, m_dividend_pp, m_dividend_ps)
 
   return(data_out)
 }
