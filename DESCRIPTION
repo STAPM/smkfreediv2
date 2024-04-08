@@ -30,8 +30,11 @@ Authors@R: c(
                   role = c("aut")),  
            )
 Maintainer: Damon Morris <d.j.morris@sheffield.ac.uk>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
+Description: Uses the Smoking Toolkit Study, Office for National Statistics (ONS), and 
+    Office for Health Improvement and Disparities (OHID) data to produce estimates
+    of tobacco spending by local authority and other socio-economic breakdowns to
+    calculate the potential dividend to local areas from individuals quitting smoking
+    in England.
 License: AGPL (>= 3)
 Encoding: UTF-8
 LazyData: true
