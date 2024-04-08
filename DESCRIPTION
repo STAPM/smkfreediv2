@@ -27,8 +27,7 @@ Authors@R: c(
                   role = c("aut")), 
            person(given = "Tessa",
                   family = "Langley",
-                  role = c("aut")),  
-           )
+                  role = c("aut")) )
 Maintainer: Damon Morris <d.j.morris@sheffield.ac.uk>
 Description: Uses the Smoking Toolkit Study, Office for National Statistics (ONS), and 
     Office for Health Improvement and Disparities (OHID) data to produce estimates
