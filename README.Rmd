@@ -28,7 +28,7 @@ knitr::opts_chunk$set(
 
 ## Motivation
 
-The motivation for `smkfreediv2` is to develop a set of standard functions for obtaining and processing raw data from OHID local tobacco profiles and combining this with data from the Smoking Toolkit Study (STS) to produce estimates of the smoke-free dividend for local authorities in England.
+The motivation for `smkfreediv2` is to develop a set of standard functions for obtaining and processing raw data from OHID local tobacco profiles and combining this with data from the Smoking Toolkit Study (STS) to produce estimates of the smoke-free dividend for local authorities in England. The package uses the methods developed in Morris et al. (2024), with functions to flexibly update assumptions and data sources used in the calculation of the dividend.
 
 ## Usage
 
@@ -65,3 +65,6 @@ devtools::install_git(
 
 ```
 
+## Reference 
+
+Morris D, Gillespie D, Dockrell MJ, et al. Potential smoke-free dividend across local areas in England: a cross-sectional analysis Tobacco Control Published Online First: 20 March 2024. doi: 10.1136/tc-2023-058264
