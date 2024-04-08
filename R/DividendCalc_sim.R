@@ -61,7 +61,7 @@ DividendCalc_sim <- function(data_spend,
         group_by(UTLA22CD,UTLA22NM) %>%
         mutate(smk_prev_se           = (smk_prev_uci - smk_prev)/1.96,
                prob_smk_prev         = rnorm(1, mean = smk_prev, sd = smk_prev_se),
-               prob_n_smokers        = prob_smk_prev * pop,
+               prob_n_smokers        = (prob_smk_prev/100) * pop,
                prob_mean_week_spend  = rnorm(1, mean = mean_week_spend, sd = se_week_spend),
                prob_total_annual_exp = (prob_n_smokers * prob_mean_week_spend * 52),
                prob_dividend         = (prob_total_annual_exp * illicit_prop) + (prob_total_annual_exp * (1 - illicit_prop))*div,
