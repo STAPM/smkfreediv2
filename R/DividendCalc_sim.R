@@ -63,7 +63,7 @@ DividendCalc_sim <- function(data_spend,
                prob_smk_prev         = rnorm(1, mean = smk_prev, sd = smk_prev_se),
                prob_n_smokers        = prob_smk_prev * pop,
                prob_mean_week_spend  = rnorm(1, mean = mean_week_spend, sd = se_week_spend),
-               prob_total_annual_exp = (prob_n_smokers * prob_mean_week_spend * 52)/1000000,
+               prob_total_annual_exp = (prob_n_smokers * prob_mean_week_spend * 52),
                prob_dividend         = (prob_total_annual_exp * illicit_prop) + (prob_total_annual_exp * (1 - illicit_prop))*div,
                prob_dividend_pp      = prob_dividend / pop,
                prob_dividend_ps      = prob_dividend / n_smokers) %>%
@@ -158,7 +158,7 @@ DividendCalc_sim <- function(data_spend,
   m_s <- transform(m, SD=apply(m,1, sd, na.rm = TRUE))
   m_dividend_pp   <- cbind(m_m[,"M"] ,m_s[,"SD"])
 
-  setnames(m_dividend, c("M","SD"), c("dividend_pp_m","dividend_pp_sd"))
+  setnames(m_dividend_pp, c("M","SD"), c("dividend_pp_m","dividend_pp_sd"))
 
   #cat("\t\tdone\n")
   ### -----------------------------------------------------------------###
@@ -171,7 +171,7 @@ DividendCalc_sim <- function(data_spend,
   m_s <- transform(m, SD=apply(m,1, sd, na.rm = TRUE))
   m_dividend_ps   <- cbind(m_m[,"M"] ,m_s[,"SD"])
 
-  setnames(m_dividend, c("M","SD"), c("dividend_ps_m","dividend_ps_sd"))
+  setnames(m_dividend_ps, c("M","SD"), c("dividend_ps_m","dividend_ps_sd"))
 
   #cat("\t\tdone\n")
   ### -----------------------------------------------------------------###
