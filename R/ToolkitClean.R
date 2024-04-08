@@ -199,10 +199,10 @@ ToolkitClean <- function(data,
 
   ## rebase to chosen base month and year
 
-  cpi_base <- as.numeric(smkfreediv2::cpi_tobacco[Year == base_year & month == base_month, "cpi"])
-  index[, cpi := 100*cpi/cpi_base]
+  inflation <- copy(smkfreediv2::cpi_tobacco)
 
-  index[, month := NULL]
+  cpi_base <- as.numeric(inflation[Year == base_year & month == base_month, "cpi"])
+  index[, cpi := 100*cpi/cpi_base]
 
   ## merge to the toolkit data
 
