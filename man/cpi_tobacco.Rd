@@ -5,7 +5,7 @@
 \alias{cpi_tobacco}
 \title{CPI Index for Tobacco}
 \format{
-An object of class \code{data.table} (inherits from \code{data.frame}) with 430 rows and 4 columns.
+An object of class \code{data.table} (inherits from \code{data.frame}) with 434 rows and 4 columns.
 }
 \source{
 \href{https://www.ons.gov.uk/economy/inflationandpriceindices/timeseries/d7cb/mm23}{Tobacco CPI time series}
@@ -14,8 +14,8 @@ An object of class \code{data.table} (inherits from \code{data.frame}) with 430 
 cpi_tobacco
 }
 \description{
-Consumer price index monthly time series for tobacco products from January 1988 to October 2023.
-Base month is December 2022.
+Consumer price index monthly time series for tobacco products from January 1988 to February 2024.
+Base month is December 2023.
 }
 \details{
 Time series last updated: 17/12/2023

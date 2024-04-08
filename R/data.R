@@ -1,7 +1,7 @@
 #' CPI Index for Tobacco
 #'
-#' Consumer price index monthly time series for tobacco products from January 1988 to October 2023.
-#' Base month is December 2022.
+#' Consumer price index monthly time series for tobacco products from January 1988 to February 2024.
+#' Base month is December 2023.
 #'
 #' Time series last updated: 17/12/2023
 #'
