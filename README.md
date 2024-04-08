@@ -23,9 +23,11 @@ The motivation for `smkfreediv2` is to develop a set of standard
 functions for obtaining and processing raw data from OHID local tobacco
 profiles and combining this with data from the Smoking Toolkit Study
 (STS) to produce estimates of the smoke-free dividend for local
-authorities in England. The package uses the methods developed in Morris
-et al. (2024), with functions to flexibly update assumptions and data
-sources used in the calculation of the dividend.
+authorities in England. The package uses the methods developed in
+[Morris et
+al. (2024)](https://tobaccocontrol.bmj.com/content/early/2024/02/05/tc-2023-058264),
+with functions to flexibly update assumptions and data sources used in
+the calculation of the dividend.
 
 ## Usage
 
