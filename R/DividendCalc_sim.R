@@ -45,6 +45,14 @@ DividendCalc_sim <- function(data_spend,
   m_dividend_pp         <- matrix(rep(NA,n_sim*152), ncol = n_sim)
   m_dividend_ps         <- matrix(rep(NA,n_sim*152), ncol = n_sim)
 
+  m_n_smokers_ENG           <- matrix(rep(NA,n_sim), ncol = n_sim)
+  m_smk_prev_ENG            <- matrix(rep(NA,n_sim), ncol = n_sim)
+  m_mean_week_spend_ENG     <- matrix(rep(NA,n_sim), ncol = n_sim)
+  m_total_annual_exp_ENG    <- matrix(rep(NA,n_sim), ncol = n_sim)
+  m_dividend_ENG            <- matrix(rep(NA,n_sim), ncol = n_sim)
+  m_dividend_pp_ENG         <- matrix(rep(NA,n_sim), ncol = n_sim)
+  m_dividend_ps_ENG         <- matrix(rep(NA,n_sim), ncol = n_sim)
+
   for (i in 1:n_sim) {
 
     cat("\t\tMonte-Carlo simulation progress...", round(100*i/n_sim,2),"%", "               \r")
@@ -55,6 +63,7 @@ DividendCalc_sim <- function(data_spend,
 
     ### generate probabilistic variables
 
+    # local authority level
     suppressWarnings(
       sim_data <- merge %>%
         arrange(UTLA22CD,UTLA22NM) %>%
@@ -69,6 +78,20 @@ DividendCalc_sim <- function(data_spend,
                prob_dividend_ps      = prob_dividend / n_smokers) %>%
         ungroup()
     )
+
+    # aggregate
+
+    sim_data_england  <- sim_data %>%
+      summarise(prob_smk_prev_ENG = weighted.mean(prob_smk_prev, w = pop, na.rm = TRUE),
+                prob_n_smokers_ENG = sum(prob_n_smokers, na.rm = TRUE),
+                prob_mean_week_spend_ENG = weighted.mean(prob_smk_prev, w = prob_n_smokers, na.rm = TRUE),
+                prob_total_annual_exp_ENG = sum(prob_total_annual_exp, na.rm = TRUE),
+                prob_dividend_ENG = sum(prob_dividend, na.rm = TRUE),
+                prob_dividend_pp_ENG = weighted.mean(prob_dividend_pp, w = pop, na.rm = TRUE),
+                prob_dividend_ps_ENG = weighted.mean(prob_dividend_ps, w = prob_n_smokers, na.rm = TRUE))
+
+
+
     ######## save out probabilistic results ################
 
     m_n_smokers[,i]           <- as.vector(as.matrix(sim_data[,"prob_n_smokers"]))
@@ -79,13 +102,21 @@ DividendCalc_sim <- function(data_spend,
     m_dividend_pp[,i]         <- as.vector(as.matrix(sim_data[,"prob_dividend_pp"]))
     m_dividend_ps[,i]         <- as.vector(as.matrix(sim_data[,"prob_dividend_ps"]))
 
+
+    m_n_smokers_ENG[,i]           <- as.vector(as.matrix(sim_data_england[,"prob_n_smokers_ENG"]))
+    m_smk_prev_ENG[,i]            <- as.vector(as.matrix(sim_data_england[,"prob_smk_prev_ENG"]))
+    m_mean_week_spend_ENG[,i]     <- as.vector(as.matrix(sim_data_england[,"prob_mean_week_spend_ENG"]))
+    m_total_annual_exp_ENG[,i]    <- as.vector(as.matrix(sim_data_england[,"prob_total_annual_exp_ENG"]))
+    m_dividend_ENG[,i]            <- as.vector(as.matrix(sim_data_england[,"prob_dividend_ENG"]))
+    m_dividend_pp_ENG[,i]         <- as.vector(as.matrix(sim_data_england[,"prob_dividend_pp_ENG"]))
+    m_dividend_ps_ENG[,i]         <- as.vector(as.matrix(sim_data_england[,"prob_dividend_ps_ENG"]))
+
   } ## end loop over simulation iterations
 
-  ##################################################################
-  #### Get means and standard deviations of simulated variables ####
+  ####################################################################################
+  #### Get means and standard deviations of simulated variables (LOCAL AUTHORITY) ####
 
   ### ------------- (1) Number of Smokers -----------------------------###
-  #cat(crayon::cyan("\t\tNumber of Smokers"))
 
   m <- data.table(m_n_smokers)
 
@@ -95,10 +126,8 @@ DividendCalc_sim <- function(data_spend,
 
   setnames(m_n_smokers, c("M","SD"), c("n_smokers_m","n_smokers_sd"))
 
-  #cat("\t\tdone\n")
   ### -----------------------------------------------------------------###
   ### -------------- (2) Smoking Prevalence ---------------------------###
-  #cat(crayon::cyan("\t\tSmoking Prevalence"))
 
   m <- data.table(m_smk_prev)
 
@@ -108,10 +137,8 @@ DividendCalc_sim <- function(data_spend,
 
   setnames(m_smk_prev, c("M","SD"), c("smk_prev_m","smk_prev_sd"))
 
-  #cat("\t\tdone\n")
   ### -----------------------------------------------------------------###
   ### ----------- (3) Mean Weekly Spending ----------------------------###
-  #cat(crayon::cyan("\t\tMean Weekly Expenditure"))
 
   m <- data.table(m_mean_week_spend)
 
@@ -121,10 +148,8 @@ DividendCalc_sim <- function(data_spend,
 
   setnames(m_mean_week_spend, c("M","SD"), c("mean_week_spend_m","mean_week_spend_sd"))
 
-  #cat("\t\tdone\n")
   ### -----------------------------------------------------------------###
   ### ----------- (4) Total annual spending ---------------------------###
- # cat(crayon::cyan("\t\tTotal Annual Expenditure"))
 
   m <- data.table(m_total_annual_exp)
 
@@ -134,7 +159,6 @@ DividendCalc_sim <- function(data_spend,
 
   setnames(m_total_annual_exp, c("M","SD"), c("total_annual_exp_m","total_annual_exp_sd"))
 
- # cat("\t\tdone\n")
   ### -----------------------------------------------------------------###
   ### ----------- (5) Smoke-free dividend -----------------------------###
   #cat(crayon::cyan("\t\tSmokefree Dividend"))
@@ -147,7 +171,6 @@ DividendCalc_sim <- function(data_spend,
 
   setnames(m_dividend, c("M","SD"), c("dividend_m","dividend_sd"))
 
-  #cat("\t\tdone\n")
   ### -----------------------------------------------------------------###
   ### ----------- (6) Smoke-free dividend per person ------------------###
   #cat(crayon::cyan("\t\tSmokefree Dividend"))
@@ -160,7 +183,6 @@ DividendCalc_sim <- function(data_spend,
 
   setnames(m_dividend_pp, c("M","SD"), c("dividend_pp_m","dividend_pp_sd"))
 
-  #cat("\t\tdone\n")
   ### -----------------------------------------------------------------###
   ### ----------- (7) Smoke-free dividend per smoker ------------------###
   #cat(crayon::cyan("\t\tSmokefree Dividend"))
@@ -173,7 +195,6 @@ DividendCalc_sim <- function(data_spend,
 
   setnames(m_dividend_ps, c("M","SD"), c("dividend_ps_m","dividend_ps_sd"))
 
-  #cat("\t\tdone\n")
   ### -----------------------------------------------------------------###
 
   utla <- merge %>%
@@ -183,5 +204,97 @@ DividendCalc_sim <- function(data_spend,
   data_out <- cbind(utla, m_n_smokers, m_smk_prev, m_mean_week_spend, m_total_annual_exp,
                     m_dividend, m_dividend_pp, m_dividend_ps)
 
-  return(data_out)
+
+
+  ############################################################################
+  #### Get means and standard deviations of simulated variables (ENGLAND) ####
+
+  ### ------------- (1) Number of Smokers -----------------------------###
+
+  m <- data.table(m_n_smokers_ENG)
+
+  m_m <- transform(m, M=apply(m,1, mean, na.rm = TRUE))
+  m_s <- transform(m, SD=apply(m,1, sd, na.rm = TRUE))
+  m_n_smokers   <- cbind(m_m[,"M"] ,m_s[,"SD"])
+
+  setnames(m_n_smokers, c("M","SD"), c("n_smokers_m","n_smokers_sd"))
+
+  ### -----------------------------------------------------------------###
+  ### -------------- (2) Smoking Prevalence ---------------------------###
+
+  m <- data.table(m_smk_prev_ENG)
+
+  m_m <- transform(m, M=apply(m,1, mean, na.rm = TRUE))
+  m_s <- transform(m, SD=apply(m,1, sd, na.rm = TRUE))
+  m_smk_prev   <- cbind(m_m[,"M"] ,m_s[,"SD"])
+
+  setnames(m_smk_prev, c("M","SD"), c("smk_prev_m","smk_prev_sd"))
+
+  ### -----------------------------------------------------------------###
+  ### ----------- (3) Mean Weekly Spending ----------------------------###
+
+  m <- data.table(m_mean_week_spend_ENG)
+
+  m_m <- transform(m, M=apply(m,1, mean, na.rm = TRUE))
+  m_s <- transform(m, SD=apply(m,1, sd, na.rm = TRUE))
+  m_mean_week_spend   <- cbind(m_m[,"M"] ,m_s[,"SD"])
+
+  setnames(m_mean_week_spend, c("M","SD"), c("mean_week_spend_m","mean_week_spend_sd"))
+
+  ### -----------------------------------------------------------------###
+  ### ----------- (4) Total annual spending ---------------------------###
+
+  m <- data.table(m_total_annual_exp_ENG)
+
+  m_m <- transform(m, M=apply(m,1, mean, na.rm = TRUE))
+  m_s <- transform(m, SD=apply(m,1, sd, na.rm = TRUE))
+  m_total_annual_exp   <- cbind(m_m[,"M"] ,m_s[,"SD"])
+
+  setnames(m_total_annual_exp, c("M","SD"), c("total_annual_exp_m","total_annual_exp_sd"))
+
+  ### -----------------------------------------------------------------###
+  ### ----------- (5) Smoke-free dividend -----------------------------###
+  #cat(crayon::cyan("\t\tSmokefree Dividend"))
+
+  m <- data.table(m_dividend_ENG)
+
+  m_m <- transform(m, M=apply(m,1, mean, na.rm = TRUE))
+  m_s <- transform(m, SD=apply(m,1, sd, na.rm = TRUE))
+  m_dividend   <- cbind(m_m[,"M"] ,m_s[,"SD"])
+
+  setnames(m_dividend, c("M","SD"), c("dividend_m","dividend_sd"))
+
+  ### -----------------------------------------------------------------###
+  ### ----------- (6) Smoke-free dividend per person ------------------###
+  #cat(crayon::cyan("\t\tSmokefree Dividend"))
+
+  m <- data.table(m_dividend_pp_ENG)
+
+  m_m <- transform(m, M=apply(m,1, mean, na.rm = TRUE))
+  m_s <- transform(m, SD=apply(m,1, sd, na.rm = TRUE))
+  m_dividend_pp   <- cbind(m_m[,"M"] ,m_s[,"SD"])
+
+  setnames(m_dividend_pp, c("M","SD"), c("dividend_pp_m","dividend_pp_sd"))
+
+  ### -----------------------------------------------------------------###
+  ### ----------- (7) Smoke-free dividend per smoker ------------------###
+  #cat(crayon::cyan("\t\tSmokefree Dividend"))
+
+  m <- data.table(m_dividend_ps_ENG)
+
+  m_m <- transform(m, M=apply(m,1, mean, na.rm = TRUE))
+  m_s <- transform(m, SD=apply(m,1, sd, na.rm = TRUE))
+  m_dividend_ps   <- cbind(m_m[,"M"] ,m_s[,"SD"])
+
+  setnames(m_dividend_ps, c("M","SD"), c("dividend_ps_m","dividend_ps_sd"))
+
+  ### -----------------------------------------------------------------###
+
+  data_out_ENG <- cbind(m_n_smokers_ENG, m_smk_prev_ENG, m_mean_week_spend_ENG, m_total_annual_exp_ENG,
+                        m_dividend_ENG, m_dividend_pp_ENG, m_dividend_ps_ENG)
+
+
+  ### Return local authority and national level results
+  return(list(local_authority = data_out,
+              england = data_out_ENG))
 }
