@@ -73,7 +73,9 @@ smkfreediv2 <- function(year = 2022,
 
   toolkit_clean <- ToolkitClean(data = toolkit_raw,
                                 start_month = start_month,
-                                end_month = end_month)
+                                end_month = end_month,
+                                base_month = base_month,
+                                base_year = base_year)
 
   week_spend <- ToolkitCalcWeekSpend(data = toolkit_clean,
                                      upshift = upshift)
