@@ -215,9 +215,9 @@ DividendCalc_sim <- function(data_spend,
 
   m_m <- transform(m, M=apply(m,1, mean, na.rm = TRUE))
   m_s <- transform(m, SD=apply(m,1, sd, na.rm = TRUE))
-  m_n_smokers   <- cbind(m_m[,"M"] ,m_s[,"SD"])
+  m_n_smokers_ENG   <- cbind(m_m[,"M"] ,m_s[,"SD"])
 
-  setnames(m_n_smokers, c("M","SD"), c("n_smokers_m","n_smokers_sd"))
+  setnames(m_n_smokers_ENG, c("M","SD"), c("n_smokers_m","n_smokers_sd"))
 
   ### -----------------------------------------------------------------###
   ### -------------- (2) Smoking Prevalence ---------------------------###
@@ -226,9 +226,9 @@ DividendCalc_sim <- function(data_spend,
 
   m_m <- transform(m, M=apply(m,1, mean, na.rm = TRUE))
   m_s <- transform(m, SD=apply(m,1, sd, na.rm = TRUE))
-  m_smk_prev   <- cbind(m_m[,"M"] ,m_s[,"SD"])
+  m_smk_prev_ENG   <- cbind(m_m[,"M"] ,m_s[,"SD"])
 
-  setnames(m_smk_prev, c("M","SD"), c("smk_prev_m","smk_prev_sd"))
+  setnames(m_smk_prev_ENG, c("M","SD"), c("smk_prev_m","smk_prev_sd"))
 
   ### -----------------------------------------------------------------###
   ### ----------- (3) Mean Weekly Spending ----------------------------###
@@ -237,9 +237,9 @@ DividendCalc_sim <- function(data_spend,
 
   m_m <- transform(m, M=apply(m,1, mean, na.rm = TRUE))
   m_s <- transform(m, SD=apply(m,1, sd, na.rm = TRUE))
-  m_mean_week_spend   <- cbind(m_m[,"M"] ,m_s[,"SD"])
+  m_mean_week_spend_ENG   <- cbind(m_m[,"M"] ,m_s[,"SD"])
 
-  setnames(m_mean_week_spend, c("M","SD"), c("mean_week_spend_m","mean_week_spend_sd"))
+  setnames(m_mean_week_spend_ENG, c("M","SD"), c("mean_week_spend_m","mean_week_spend_sd"))
 
   ### -----------------------------------------------------------------###
   ### ----------- (4) Total annual spending ---------------------------###
@@ -248,9 +248,9 @@ DividendCalc_sim <- function(data_spend,
 
   m_m <- transform(m, M=apply(m,1, mean, na.rm = TRUE))
   m_s <- transform(m, SD=apply(m,1, sd, na.rm = TRUE))
-  m_total_annual_exp   <- cbind(m_m[,"M"] ,m_s[,"SD"])
+  m_total_annual_exp_ENG   <- cbind(m_m[,"M"] ,m_s[,"SD"])
 
-  setnames(m_total_annual_exp, c("M","SD"), c("total_annual_exp_m","total_annual_exp_sd"))
+  setnames(m_total_annual_exp_ENG, c("M","SD"), c("total_annual_exp_m","total_annual_exp_sd"))
 
   ### -----------------------------------------------------------------###
   ### ----------- (5) Smoke-free dividend -----------------------------###
@@ -260,9 +260,9 @@ DividendCalc_sim <- function(data_spend,
 
   m_m <- transform(m, M=apply(m,1, mean, na.rm = TRUE))
   m_s <- transform(m, SD=apply(m,1, sd, na.rm = TRUE))
-  m_dividend   <- cbind(m_m[,"M"] ,m_s[,"SD"])
+  m_dividend_ENG   <- cbind(m_m[,"M"] ,m_s[,"SD"])
 
-  setnames(m_dividend, c("M","SD"), c("dividend_m","dividend_sd"))
+  setnames(m_dividend_ENG, c("M","SD"), c("dividend_m","dividend_sd"))
 
   ### -----------------------------------------------------------------###
   ### ----------- (6) Smoke-free dividend per person ------------------###
@@ -272,9 +272,9 @@ DividendCalc_sim <- function(data_spend,
 
   m_m <- transform(m, M=apply(m,1, mean, na.rm = TRUE))
   m_s <- transform(m, SD=apply(m,1, sd, na.rm = TRUE))
-  m_dividend_pp   <- cbind(m_m[,"M"] ,m_s[,"SD"])
+  m_dividend_pp_ENG   <- cbind(m_m[,"M"] ,m_s[,"SD"])
 
-  setnames(m_dividend_pp, c("M","SD"), c("dividend_pp_m","dividend_pp_sd"))
+  setnames(m_dividend_pp_ENG, c("M","SD"), c("dividend_pp_m","dividend_pp_sd"))
 
   ### -----------------------------------------------------------------###
   ### ----------- (7) Smoke-free dividend per smoker ------------------###
@@ -284,9 +284,9 @@ DividendCalc_sim <- function(data_spend,
 
   m_m <- transform(m, M=apply(m,1, mean, na.rm = TRUE))
   m_s <- transform(m, SD=apply(m,1, sd, na.rm = TRUE))
-  m_dividend_ps   <- cbind(m_m[,"M"] ,m_s[,"SD"])
+  m_dividend_ps_ENG   <- cbind(m_m[,"M"] ,m_s[,"SD"])
 
-  setnames(m_dividend_ps, c("M","SD"), c("dividend_ps_m","dividend_ps_sd"))
+  setnames(m_dividend_ps_ENG, c("M","SD"), c("dividend_ps_m","dividend_ps_sd"))
 
   ### -----------------------------------------------------------------###
 
